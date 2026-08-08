@@ -1,5 +1,6 @@
 #include <esp_err.h>
 #include <esp_check.h>
+#include <esp_log.h>
 #include <esp_timer.h>
 #include <driver/gpio.h>
 #include <driver/gpio_filter.h>
@@ -15,7 +16,7 @@
 #include "switches.h"
 
 #define DEBOUNCE_TIME_MS 50
-#define KEYSTROKE_TIME_MS 50
+#define KEYSTROKE_TIME_MS 10
 
 static const char *TAG = "SWITCHES";
 
@@ -28,40 +29,38 @@ static QueueHandle_t switches_queue = NULL;
 
 // isr handler for any edge
 static void IRAM_ATTR switch_isr_handler(void *arg) {
-    switch_ctx_t *ctx = (switch_ctx_t *) arg;
+    switch_ctx_t *switch_ctx = (switch_ctx_t *) arg;
 
-    gpio_intr_disable(ctx->pin);
+    gpio_intr_disable(switch_ctx->pin);
 
-    BaseType_t higher_priority_task_woken = pdFALSE;
-    xTimerStartFromISR(ctx->debounce_timer, &higher_priority_task_woken);
-
-    if (higher_priority_task_woken) {
-        portYIELD_FROM_ISR();
-    }
+    esp_timer_start_once(switch_ctx->debounce_timer, DEBOUNCE_TIME_MS * 1000ULL);
 }
 
 // triggers after DEBOUNCE_TIME_MS to read gpio level
-static void debounce_timer_callback(TimerHandle_t xTimer) {
-    switch_ctx_t *ctx = (switch_ctx_t *)pvTimerGetTimerID(xTimer);
+static void debounce_timer_callback(void *arg) {
+    switch_ctx_t *switch_ctx = (switch_ctx_t *) arg;
     
-    uint8_t current_level = gpio_get_level(ctx->pin);
+    uint8_t current_level = gpio_get_level(switch_ctx->pin);
 
     // only queue event if state actually changed compared to the last state
-    if (current_level != ctx->last_level) {
-        ctx->last_level = current_level;
+    if (current_level != switch_ctx->last_level) {
+        switch_ctx->last_level = current_level;
         
         const switch_event_t event = {
-            .ctx = ctx,
+            .ctx = switch_ctx,
             .level = current_level,
         };
 
-        xQueueSend(switches_queue, &event, 0);
+        if (xQueueSend(switches_queue, &event, 0) != pdTRUE) {
+            ESP_LOGW(TAG, "Queue full, keystroke dropped");
+        }
     }
 
-    gpio_set_intr_type(ctx->pin, GPIO_INTR_DISABLE);
-    gpio_set_intr_type(ctx->pin, GPIO_INTR_ANYEDGE);
+    // reset isr
+    gpio_set_intr_type(switch_ctx->pin, GPIO_INTR_DISABLE);
+    gpio_set_intr_type(switch_ctx->pin, GPIO_INTR_ANYEDGE);
 
-    gpio_intr_enable(ctx->pin);
+    gpio_intr_enable(switch_ctx->pin);
 }
 
 // handles switch events and sends corresponding keystrokes
@@ -136,13 +135,12 @@ esp_err_t switches_init(switch_ctx_t switch_ctx[], size_t num_switches) {
         switch_ctx[i].last_level = gpio_get_level(switch_ctx[i].pin);
 
         // add the timer callback
-        switch_ctx[i].debounce_timer = xTimerCreate(
-            "debounce", 
-            pdMS_TO_TICKS(DEBOUNCE_TIME_MS), 
-            pdFALSE, 
-            &switch_ctx[i], 
-            debounce_timer_callback
-        );
+        const esp_timer_create_args_t debounce_timer_args = {
+            .callback = debounce_timer_callback,
+            .arg = &switch_ctx[i],
+            .name = "debounce timer",
+        };
+        esp_timer_create(&debounce_timer_args, &switch_ctx[i].debounce_timer);
 
         // add the isr
         ESP_RETURN_ON_ERROR(

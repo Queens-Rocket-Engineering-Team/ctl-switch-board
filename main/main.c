@@ -1,8 +1,3 @@
-#include <tinyusb_default_config.h>
-#include <tinyusb.h>
-#include <class/hid/hid_device.h>
-#include <driver/gpio.h>
-#include <driver/gpio_filter.h>
 #include <stddef.h>
 #include <stdint.h>
 
