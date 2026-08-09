@@ -3,4 +3,5 @@ idf_component_register(
     INCLUDE_DIRS "."
     REQUIRES
     switches
+    switch_config
 )

@@ -1,0 +1,24 @@
+[
+    {
+        "pin": 1,
+        "rising_keystroke": [
+            "a"
+        ],
+        "falling_keystroke": [
+            "lctrl",
+            "b"
+        ]
+    },
+    {
+        "pin": 2,
+        "rising_keystroke": [
+            "y"
+        ],
+        "falling_keystroke": [
+            "lshift",
+            "rshift",
+            "b",
+            "c"
+        ]
+    }
+]
