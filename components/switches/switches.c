@@ -5,6 +5,8 @@
 #include <driver/gpio.h>
 #include <driver/gpio_filter.h>
 #include <freertos/FreeRTOS.h>
+#include <freertos/queue.h>
+#include <freertos/task.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>

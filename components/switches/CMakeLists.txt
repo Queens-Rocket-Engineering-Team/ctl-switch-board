@@ -4,8 +4,8 @@ idf_component_register(
     REQUIRES
     esp_common
     esp_driver_gpio
-    esp_timer
     PRIV_REQUIRES
     freertos
+    esp_timer
     esp_tinyusb
 )
