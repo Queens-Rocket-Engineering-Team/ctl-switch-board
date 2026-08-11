@@ -1,6 +1,6 @@
 [
     {
-        "pin": 1,
+        "pin": 4,
         "rising_keystroke": [
             "a"
         ],
@@ -10,7 +10,73 @@
         ]
     },
     {
-        "pin": 2,
+        "pin": 5,
+        "rising_keystroke": [
+            "y"
+        ],
+        "falling_keystroke": [
+            "lshift",
+            "rshift",
+            "b",
+            "c"
+        ]
+    },
+    {
+        "pin": 6,
+        "rising_keystroke": [
+            "a"
+        ],
+        "falling_keystroke": [
+            "lctrl",
+            "b"
+        ]
+    },
+    {
+        "pin": 7,
+        "rising_keystroke": [
+            "y"
+        ],
+        "falling_keystroke": [
+            "lshift",
+            "rshift",
+            "b",
+            "c"
+        ]
+    },
+    {
+        "pin": 15,
+        "rising_keystroke": [
+            "a"
+        ],
+        "falling_keystroke": [
+            "lctrl",
+            "b"
+        ]
+    },
+    {
+        "pin": 16,
+        "rising_keystroke": [
+            "y"
+        ],
+        "falling_keystroke": [
+            "lshift",
+            "rshift",
+            "b",
+            "c"
+        ]
+    },
+    {
+        "pin": 17,
+        "rising_keystroke": [
+            "a"
+        ],
+        "falling_keystroke": [
+            "lctrl",
+            "b"
+        ]
+    },
+    {
+        "pin": 18,
         "rising_keystroke": [
             "y"
         ],
