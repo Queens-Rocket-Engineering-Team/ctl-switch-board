@@ -140,9 +140,6 @@ esp_err_t switches_init(switch_ctx_t switch_ctx[], const switch_config_t switch_
         const gpio_config_t gpio_cfg = {
             .pin_bit_mask = 1ULL << switch_ctx[i].cfg.pin,
             .mode = GPIO_MODE_INPUT,
-            .intr_type = GPIO_INTR_DISABLE,
-            .pull_up_en = GPIO_PULLUP_DISABLE,
-            .pull_down_en = GPIO_PULLDOWN_ENABLE,
         };
         ESP_RETURN_ON_ERROR(gpio_config(&gpio_cfg), TAG, "GPIO config for DRDY failed");
 
@@ -156,6 +153,9 @@ esp_err_t switches_init(switch_ctx_t switch_ctx[], const switch_config_t switch_
             return ESP_FAIL;
         }
         gpio_glitch_filter_enable(glitch_handle);
+
+        // currently hardcoded to pullups
+        gpio_set_pull_mode(switch_ctx[i].cfg.pin, GPIO_PULLUP_ONLY);
 
         // set the current level
         switch_ctx[i].verified_level = gpio_get_level(switch_ctx[i].cfg.pin);
