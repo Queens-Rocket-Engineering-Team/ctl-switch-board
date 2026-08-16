@@ -2,89 +2,89 @@
     {
         "pin": 4,
         "rising_keystroke": [
-            "a"
+            "lctrl",
+            "f13"
         ],
         "falling_keystroke": [
-            "lctrl",
-            "b"
+            "lshift",
+            "f13"
         ]
     },
     {
         "pin": 5,
         "rising_keystroke": [
-            "y"
+            "lctrl",
+            "f14"
         ],
         "falling_keystroke": [
             "lshift",
-            "rshift",
-            "b",
-            "c"
+            "f14"
         ]
     },
     {
         "pin": 6,
         "rising_keystroke": [
-            "a"
+            "lctrl",
+            "f15"
         ],
         "falling_keystroke": [
-            "lctrl",
-            "b"
+            "lshift",
+            "f15"
         ]
     },
     {
         "pin": 7,
         "rising_keystroke": [
-            "y"
+            "lctrl",
+            "f16"
         ],
         "falling_keystroke": [
             "lshift",
-            "rshift",
-            "b",
-            "c"
+            "f16"
         ]
     },
     {
         "pin": 15,
         "rising_keystroke": [
-            "a"
+            "lctrl",
+            "f17"
         ],
         "falling_keystroke": [
-            "lctrl",
-            "b"
+            "lshift",
+            "f17"
         ]
     },
     {
         "pin": 16,
         "rising_keystroke": [
-            "y"
+            "lctrl",
+            "f18"
         ],
         "falling_keystroke": [
             "lshift",
-            "rshift",
-            "b",
-            "c"
+            "f18"
         ]
     },
     {
         "pin": 17,
         "rising_keystroke": [
-            "a"
+            "lctrl",
+            "f19"
         ],
         "falling_keystroke": [
-            "lctrl",
-            "b"
+            "lshift",
+            "f19"
         ]
     },
     {
         "pin": 18,
         "rising_keystroke": [
-            "y"
+            "lctrl",
+            "f20"
         ],
         "falling_keystroke": [
             "lshift",
-            "rshift",
-            "b",
-            "c"
+            "f20"
         ]
     }
 ]

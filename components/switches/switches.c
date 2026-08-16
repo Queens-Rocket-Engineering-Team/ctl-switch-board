@@ -81,6 +81,17 @@ static void switches_handler_task(void *pvParams) {
             continue;
         }
 
+        if (tud_suspended()) {
+            tud_remote_wakeup();
+
+            int32_t wait_resume_ms = 2000;
+            const uint32_t wait_poll_ms = 100;
+            while (tud_suspended() && wait_resume_ms > 0) {
+                vTaskDelay(pdMS_TO_TICKS(wait_poll_ms));
+                wait_resume_ms -= wait_poll_ms;
+            }
+        }
+
         if (tud_hid_ready()) {
             if (switch_event.level == 1) {
                 // rising key press
