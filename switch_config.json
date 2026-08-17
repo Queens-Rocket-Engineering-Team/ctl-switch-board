@@ -69,11 +69,11 @@
         "pin": 17,
         "rising_keystroke": [
             "lctrl",
-            "f19"
+            "keypad_multiply"
         ],
         "falling_keystroke": [
             "lshift",
-            "f19"
+            "keypad_multiply"
         ]
     },
     {

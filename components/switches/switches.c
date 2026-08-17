@@ -18,7 +18,7 @@
 #include "switches.h"
 
 #define POLLING_TIME_MS 1
-#define DEBOUNCE_TIME_MS 25
+#define DEBOUNCE_TIME_MS 50
 #define DEBOUNCE_COUNT (DEBOUNCE_TIME_MS / POLLING_TIME_MS)
 
 #define KEYSTROKE_TIME_MS 10
